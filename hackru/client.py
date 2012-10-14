@@ -5,7 +5,7 @@ import socket
 from transport import Transport
 from messages import Message
 
-game_host = 'localhost'
+game_host = 'ruslug.rutgers.edu'
 game_port = 51234
 nick = 'tester'
 
