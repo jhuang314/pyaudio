@@ -1,0 +1,11 @@
+Handshake: 
+   |nick: <nickname>|
+
+Give a nick name to the server
+randomized pairing
+
+
+a list of open players
+a list of playing players
+game class that listens for events from players
+
