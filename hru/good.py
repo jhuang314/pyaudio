@@ -12,6 +12,7 @@ import sys
 
 
 last = 0.
+last2 = 0.
 cal = []
 mean = 0.
 std = 0.
@@ -75,6 +76,8 @@ while True:
     wf.close()
 
     rate, input = read(WAVE_FILENAME)
+    input_max = max(input)
+    input = input / float(input_max)
     fmax = rate / 2
     input_len = len(input)
     input_time = float(input_len) / float(rate)
@@ -109,31 +112,21 @@ while True:
 
     #show()
 
-    sum = 0
+    sum = 0.
     # @50 22000, 25000
     # @5 2200, 2500
     # @4 1300, 1500
     #print f[1300]
     #print f[1500]
-    sum2 = 0
-    sum_d = 0
-    sum2_d = 0
     #print f[1800]
-    #print f[2000]
+    #print f[2200]
+    #print f[2500]
+    sum_d = 0.
+
     for i in range(2200, 2500):
         sum += mgft[i]
-
-    for i in range(2400, 2500):
-        sum_d += mgft[i]
-
-    for i in range(1800, 2000):
-        sum2 += mgft[i]
-
-    for i in range(1950, 2000):
-        sum2_d += mgft[i]
-
-
-    #exit()
+        if i > 2300:
+            sum_d += mgft[i]
 
     hitstr="""
 #     #  ###  #######  
@@ -145,11 +138,19 @@ while True:
 #     #  ###     #     
 
     """
-    ratio = sum2/sum
-    ratio_d = (sum2_d + ratio * sum_d)/(sum2 + ratio * sum) 
-    if sum > 10000000:
+    ratio = sum_d/sum
+    if sum > 7000:
+        #print "ratio: %f, sum: %f" % (ratio * 100 , sum)
+        last = ratio * 100
+        delta = last - last2
+        print "%f" % (delta)
+        last2 = last
         #delta = ratio - last
         
+        if abs(delta) > 6:
+            hit = hit + 1
+            print hitstr
+            print "Hits = %d" % (hit)
 
         #if ratio > 7:
         #print sum
@@ -166,15 +167,11 @@ while True:
         #    print "STD: %f" % (float(sum - mean)/std)
         #print "Delta (%f%%) : %f" % (sum/last * 100, delta);
         #if sum > 60000000:
-        #    hit = hit + 1
-        #    print hitstr
-        #    print "Hits = %d" % (hit)
-        last = ratio
 
     #last = sum
     #print sum
     #print sum2
-    print "stability: %f, delta: %f, sum: %f" % (ratio * 100, ratio_d * 100, sum)
+    #print "stability: %f, delta: %f, sum: %f" % (ratio * 100, ratio_d * 100, sum)
 
 
 
