@@ -41,21 +41,20 @@ for i in range(0, RATE / chunk * RECORD_SECONDS):
 print "* done recording"
 #print all[0]
 stream.close()
-p.terminate()
 
 # write data to WAVE file
 data = ''.join(all)
-# wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-# wf.setnchannels(CHANNELS)
-# wf.setsampwidth(p.get_sample_size(FORMAT))
-# wf.setframerate(RATE)
-# wf.writeframes(data)
-# wf.close()
+wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+wf.setnchannels(CHANNELS)
+wf.setsampwidth(p.get_sample_size(FORMAT))
+wf.setframerate(RATE)
+wf.writeframes(data)
+wf.close()
 
 
 
 
-p = pyaudio.PyAudio()
+#p = pyaudio.PyAudio()
 
 def chunks(l, n):
     """ Yield successive n-sized chunks from l.
@@ -70,7 +69,10 @@ stream = p.open(format = FORMAT,
                 frames_per_buffer = chunk)
 
 for c in chunks(data, chunk):
-    stream.write(c)
+	try:
+		stream.write(c)
+	except:
+		pass
 
 stream.close()
 p.terminate()

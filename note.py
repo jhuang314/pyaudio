@@ -1,10 +1,10 @@
 import pyaudio, array, math, wave, sys, os
 
 chunk = 1024
-FORMAT = pyaudio.paInt32
+FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-RECORD_SECONDS = 5
+RECORD_SECONDS = 60
 WAVE_OUTPUT_FILENAME = "testNote.wav"
 FREQ = 2000
 
@@ -19,9 +19,9 @@ except:
 p = pyaudio.PyAudio()
 stream = p.open(rate=RATE, channels=CHANNELS, format=FORMAT, output=True)
 data = array.array('f',
-    (.25 * math.sin(32 * 3.14 * FREQ * i / 1.) for i in range(RATE))).tostring()
+    (1 * math.sin(2.843 * i / 1.) for i in range(RATE * 50))).tostring()
 stream.write(data)
-
+print 'saving to file'
 wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
 wf.setnchannels(CHANNELS)
 wf.setsampwidth(p.get_sample_size(FORMAT))
