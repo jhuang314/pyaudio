@@ -5,7 +5,7 @@ import socket
 from transport import Transport
 from messages import Message
 
-game_host = 'localhost'
+game_host = 'ruslug.rutgers.edu'
 game_port = 51234
 nick = 'tester22'
 
@@ -55,8 +55,8 @@ class Client(Greenlet):
 
     def handle_punch(self):
 	while True:
-	    gevent.sleep(2)
-	    print "sending punch"
+	    gevent.sleep(7)
+	    #print "sending punch"
 	    self.transport.send(Message.punch().pack())
 
     def exit(self, msg):
